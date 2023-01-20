@@ -29,22 +29,24 @@ public_key = "7956b6a9b83c32fb446a8138b376e2226658a0b469bcb4aa9d35671664affc08"
 # 0Auth2
 client_id  = "1044604849871925330"
 # bot stuff (for test_bot)
-bot_token       = list( open("bot_token.txt", "r") )[0]
+bot_token       = list(open("bot_token.txt", "r"))[0]
 permissions_int = 4393751543795
 
 """
 things to run to make python connect to discord
 """
 # client = discord.Client( intents=discord.Intents.default() )
-client = discord.Client( intents = discord.Intents.all() )
+client = discord.Client(
+                        intents = discord.Intents.all()
+                        )
 
 bot = commands.Bot(
                    command_prefix='.', 
                    intents = discord.Intents.all()
                    )
 
-bot.remove_command('help')
 
+bot.remove_command('help')
 """
 lots of various definitions and such to make things work
 """
