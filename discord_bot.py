@@ -107,11 +107,16 @@ async def on_ready():
 
 
 # Josh's terrible bot is playing _________
-statuses = ["a videogame", "with a yo-yo", "with another hermit crab", "with a stick", "board games", "at the playground", "with a raccoon", "with a kitten", "with two kittens", "with a lobster", "in a pond", "with fire"]
+statuses = ["a videogame", "with a yo-yo", "with another bot", "with a stick", "board games", "at the playground", "with a raccoon", "with a kitten", "with two kittens", "with a lobster", "in a pond", "with fire"]
 status = cycle( statuses )
 @tasks.loop(minutes = 5)
 async def change_status():
-    await bot.change_presence( activity = discord.Game(next(status)) )
+    # await bot.change_presence( activity = discord.Game(next(status)) )
+    await bot.change_presence(
+                              activity = discord.Game(
+                                                      statuses[ np.random.randint(len(statuses)) ]
+                                                      )
+                              )
 
 
 
@@ -286,7 +291,7 @@ async def sym_docs(ctx):
     await ctx.send("https://docs.sympy.org/latest/index.html")
 
 @bot.command(aliases = ["kill_bot", "murder_bot", "slay_bot", "kill_yourself", "kys", "killyourself"])
-async def go_die(ctx, user=discord.User):
+async def go_die(ctx):
     enabled = True
     
     name        = "Ub3rBot"
@@ -360,7 +365,9 @@ async def symdo(ctx, math_message):
         if char == "~":
             math_stuff_final += "\~"
         
-    await ctx.send( math_stuff_final +" = "+ pretty(answer, use_unicode=True) )
+    await ctx.send(
+                   math_stuff_final +" = "+ pretty(answer, use_unicode=True)
+                   )
 
 @bot.command()
 async def spam_the_bee_movie(ctx):
@@ -393,10 +400,16 @@ async def stop_spam(ctx):
 async def hello(ctx):
     greetings = ["greetings", "salutations", "hello", "hi", "hiya", "howdy", ":)", "wazzup", "what's up", "hello fellow human being"]
     #print("responding")
-    await ctx.reply( greetings[np.random.randint(len(greetings))] )
+    await ctx.reply(
+                    greetings[np.random.randint(len(greetings))]
+                    )
 
-
-
+@bot.command(aliases = [])
+async def fuck_you(ctx):
+    responses = ["no u", "that's rude", "well fuck you too then", ":(", "watch your language please . . ."]
+    await ctx.reply(
+                    greetings[np.random.randint(len(responses))]
+                    )
 
 """
 tic tac toe stuff
