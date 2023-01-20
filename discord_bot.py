@@ -399,16 +399,15 @@ async def stop_spam(ctx):
 @bot.command(aliases = ["greet"])
 async def hello(ctx):
     greetings = ["greetings", "salutations", "hello", "hi", "hiya", "howdy", ":)", "wazzup", "what's up", "hello fellow human being"]
-    #print("responding")
     await ctx.reply(
-                    greetings[np.random.randint(len(greetings))]
+                    greetings[ np.random.randint(len(greetings)) ]
                     )
 
 @bot.command(aliases = [])
 async def fuck_you(ctx):
     responses = ["no u", "that's rude", "well fuck you too then", ":(", "watch your language please . . ."]
     await ctx.reply(
-                    greetings[np.random.randint(len(responses))]
+                    responses[ np.random.randint(len(responses)) ]
                     )
 
 """
