@@ -29,8 +29,7 @@ public_key = "7956b6a9b83c32fb446a8138b376e2226658a0b469bcb4aa9d35671664affc08"
 # 0Auth2
 client_id  = "1044604849871925330"
 # bot stuff (for test_bot)
-bot_token_1     = "MTA0NDYwNDg0OTg3MTkyNTMzMA."
-bot_token_2     = "G4VkD6.ISbDW_7ALfL-taaW6oNNgqxlCnZIzzTYbNW22o"
+bot_token       = list( open("bot_token.txt", "r") )[0]
 permissions_int = 4393751543795
 
 """
@@ -895,4 +894,4 @@ async def on_disconnect():
 """
 make bot join discord
 """
-bot.run( (bot_token_1 + bot_token_2) )
+bot.run( bot_token )
