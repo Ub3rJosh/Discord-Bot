@@ -2,7 +2,7 @@
 """
 Created on Tue Nov 22 08:28:49 2022
 
-@author: jmald
+@author: Joshua Maldonado
 
 invite link: https://discord.com/api/oauth2/authorize?client_id=1044604849871925330&permissions=4398046510833&scope=bot
 """
@@ -15,7 +15,6 @@ import random
 import discord
 import asyncio
 from discord.ext import commands, tasks
-from itertools import cycle
 
 
 
@@ -107,17 +106,36 @@ async def on_ready():
 
 
 # Josh's terrible bot is playing _________
-statuses = ["a videogame", "with a yo-yo", "with another bot", "with a stick", "board games", "at the playground", "with a raccoon", "with a kitten", "with two kittens", "with a lobster", "in a pond", "with fire"]
-status = cycle( statuses )
+game_status   = ["a videogame", "with a yo-yo", "with another bot", "with a stick", "board games", "at the playground", "with a raccoon", "with a kitten", "with two kittens", "with a lobster", "in a pond", "with fire"]
+# Josh's terrible bot is listening to _________
+listen_status = ["a really good song", "a conversation", "mice in the walls", "a podcast"]
+# Josh's terrible bot is watching _________
+watch_status  = ["The Bee Movie", "cat videos", "you waste time", "paint dry", "water boil", "you", "Shrek: The Third"]
 @tasks.loop(minutes = 5)
 async def change_status():
-    # await bot.change_presence( activity = discord.Game(next(status)) )
-    await bot.change_presence(
-                              activity = discord.Game(
-                                                      statuses[ np.random.randint(len(statuses)) ]
-                                                      )
+    presence_type = ( np.random.randint(len(game_status) + len(listen_status) + len(watch_status)) + 1 )
+    
+    # to play game
+    if presence_type <= len(game_status):
+        await bot.change_presence(
+                                  activity = discord.Game(
+                                             game_status[ np.random.randint(len(game_status)) ]
+                                             )
                               )
-
+    # to listen
+    elif presence_type <= ( len(game_status) + len(listen_status) ):
+        await bot.change_presence(
+                                  activity = discord.Activity(type=discord.ActivityType.listening,
+                                             name = listen_status[ np.random.randint(len(listen_status)) ]
+                                             )
+                                  )
+    # to watch
+    else:
+        await bot.change_presence(
+                                  activity = discord.Activity(type=discord.ActivityType.watching,
+                                             name = watch_status[ np.random.randint(len(watch_status)) ]
+                                             )
+                                  )
 
 
 """
