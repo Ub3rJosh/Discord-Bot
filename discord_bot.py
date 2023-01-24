@@ -3,6 +3,7 @@
 Created on Tue Nov 22 08:28:49 2022
 
 @author: Joshua Maldonado
+@email: joshuamaldonado4432@gmail.com
 
 invite link: https://discord.com/api/oauth2/authorize?client_id=1044604849871925330&permissions=4398046510833&scope=bot
 """
@@ -142,15 +143,50 @@ async def change_status():
 commands start here
 """
 
+
+# voice stuff
+
 @bot.command()
-async def join(ctx, cog: str):
+async def join(ctx):
     channel = ctx.author.voice.channel
     await channel.connect()
 
+@bot.command()
+async def rick_roll(ctx):
+    server = ctx.message.guild
+    voice_channel = server.voice_client
+    voice_channel.play(discord.FFmpegPCMAudio("rick_roll.mp3"))
+
+@bot.command()
+async def play_mp3(ctx, mp3_file):
+    server = ctx.message.guild
+    voice_channel = server.voice_client
+    voice_channel.play(discord.FFmpegPCMAudio( str(mp3_file) ))
+
+@bot.command()
+async def pause(ctx):
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_playing():
+        voice_client.pause()
+    else:
+        print("failed to pause music")
+
+@bot.command()
+async def resume(ctx):
+    voice_client = ctx.message.guild.voice_client
+    if voice_client.is_paused():
+        voice_client.resume()
+    else:
+        print("failed to resume music")
+
 @bot.command(aliases = ["disconnect"])
-async def leave(ctx, cog: str):
+async def leave(ctx):
     await ctx.voice_client.disconnect()
-    
+
+
+
+# regular commands
+
 @bot.command()
 async def bot_input(ctx, the_input):
     await ctx.send("the input was: \""+ str(the_input) +"\"")
@@ -160,6 +196,12 @@ async def bot_input(ctx, the_input):
 async def test(ctx):
     print("test command run successfully!")
     await ctx.send("yay!")
+
+@bot.command()
+async def ping(ctx):
+    ping_ = bot.latency
+    ping  =  round(ping_ * 1000)
+    await ctx.send(f"my ping is {ping}ms")
 
 @bot.command(aliases = ["help", "_help", "bothelp", "helpbot", "helpmenu", "help_menu"])
 async def bot_help(ctx):
@@ -247,14 +289,15 @@ async def joke(ctx):
     await ctx.send(joke)
 
 @bot.command(alieses = ["see_loaded_libraries", "python_modules", "python_libraries", "see_loaded_modules", "see_python_libaries"])
+@commands.has_permissions(administrator = True)
 async def see_python_modules(ctx):
-    await ctx.reply("import time"               +"\n"+
-                    "import numpy as np"        +"\n"+
-                    "from sympy import *"       +"\n"+
-                    "import random"             +"\n"+
-                    "import discord"            +"\n"+
-                    "import asyncio"            +"\n"+
-                    "from discord.ext import commands")
+    await ctx.send("import time"               +"\n"+
+                   "import numpy as np"        +"\n"+
+                   "from sympy import *"       +"\n"+
+                   "import random"             +"\n"+
+                   "import discord"            +"\n"+
+                   "import asyncio"            +"\n"+
+                   "from discord.ext import commands")
 
 @bot.command()
 async def run_python_code(ctx, code_snippit):
@@ -427,6 +470,20 @@ async def fuck_you(ctx):
     await ctx.reply(
                     responses[ np.random.randint(len(responses)) ]
                     )
+
+@bot.command()
+async def respond_to_steven(ctx, emoji):
+    chat_id = 1067137693508698222 # from steven
+    channel = ctx.channel
+    msg = await channel.fetch_message(chat_id)
+    await msg.add_reaction(emoji)
+
+@bot.command(aliases = ["respond_to_message", "respondtomessage", "respondtomessageid"])
+async def respond_to_message_id(ctx, emoji, chat_id):
+    channel = ctx.channel
+    msg = await channel.fetch_message(chat_id)
+    await msg.add_reaction(emoji)
+
 
 """
 tic tac toe stuff
