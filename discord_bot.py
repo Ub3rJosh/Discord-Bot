@@ -3,7 +3,7 @@
 Created on Tue Nov 22 08:28:49 2022
 
 @author: Joshua Maldonado
-@email: joshuamaldonado4432@gmail.com
+@email:  joshuamaldonado4432@gmail.com
 
 invite link: https://discord.com/api/oauth2/authorize?client_id=1044604849871925330&permissions=4398046510833&scope=bot
 """
@@ -59,20 +59,7 @@ f, g, h       = symbols("f g h", cls=Function)
 # init_printing(use_unicode=True)
 init_printing()
 
-
-
-
-
-# @client.event
-# async def on_message(message):
-#     server_name = message.guild.name
-    
-#     if message.author == client.user:
-#         print("- - - message from self - - -")
-#         return
-#     else:
-#         print( str(message.author) +" said in the channel "+ str(message.channel.name) +": "+ str(message.content) )
-    
+ 
 
 
 
