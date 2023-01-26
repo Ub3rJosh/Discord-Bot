@@ -930,7 +930,7 @@ async def tic_tac_toe(ctx):
                 if wins>losses:
                     message.append("- Yay, you won more than you lost!")
                     message.append("\n")
-                elif wins<losses:
+                elif wins < losses:
                     message.append("- Rekt, you lost more than you won!")
                     message.append("\n")
                 else:
@@ -980,7 +980,6 @@ async def on_disconnect():
 
 
 
-    
 """
 make bot join discord
 """
