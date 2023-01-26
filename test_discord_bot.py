@@ -4,7 +4,6 @@ Created on Tue Nov 22 08:28:49 2022
 
 @author: Joshua Maldonado
 @email:  joshuamaldonado4432@gmail.com
-
 """
 
 #from useful_functions import *
