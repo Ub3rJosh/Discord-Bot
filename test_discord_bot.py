@@ -980,6 +980,7 @@ async def on_disconnect():
 
 
 
+    
 """
 make bot join discord
 """
