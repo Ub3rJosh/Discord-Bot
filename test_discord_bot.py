@@ -46,7 +46,7 @@ bot = commands.Bot(
                    )
 
 
-bot.remove_command('help')
+# bot.remove_command('help')
 """
 lots of various definitions and such to make things work
 """
@@ -174,7 +174,7 @@ async def leave(ctx):
 
 # regular commands
 
-@bot.command()
+@bot.command(name = "bot_input", description = "for testing inputs from discord into python script")
 async def bot_input(ctx, the_input):
     await ctx.send("the input was: \""+ str(the_input) +"\"")
     return the_input
@@ -190,7 +190,7 @@ async def ping(ctx):
     ping  =  round(ping_ * 1000)
     await ctx.send(f"my ping is {ping}ms")
 
-@bot.command(aliases = ["help", "_help", "bothelp", "helpbot", "helpmenu", "help_menu"])
+@bot.command(aliases = ["_help", "bothelp", "helpbot", "helpmenu", "help_menu"])
 async def bot_help(ctx):
     
     # be careful, there is a 2,000 char limit in discord messages
