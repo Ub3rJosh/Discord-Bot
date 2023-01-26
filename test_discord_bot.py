@@ -2,9 +2,9 @@
 """
 Created on Tue Nov 22 08:28:49 2022
 
-
 @author: Joshua Maldonado
 @email:  joshuamaldonado4432@gmail.com
+
 """
 
 #from useful_functions import *
@@ -343,13 +343,14 @@ async def go_die(ctx):
     enabled = True
     
     name        = str(bot.user)
-    strings = [" was slain.",
-                " was eviscerated.",
-                " was murdered.",
+    strings = [
+                # " was slain.",
+                # " was eviscerated.",
+                # " was murdered.",
                 "'s face was torn off.",
-                " was destroyed.",
+                # " was destroyed.",
                 "'s skull was crushed.",
-                " got massacred.",
+                # " got massacred.",
                 " got impaled.",
                 " was torn in half.",
                 " was decapitated.",
@@ -366,7 +367,7 @@ async def go_die(ctx):
                 " was chopped up.",
                 "'s plea for death was answered.",
                 "'s meat was ripped off the bone.",
-                "'s flailing about was finally stopped.",
+                # "'s flailing about was finally stopped.",
                 " had their head removed.",
                 " lost their head."
                 ]
