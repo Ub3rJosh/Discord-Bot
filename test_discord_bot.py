@@ -31,8 +31,8 @@ stuff from discord.com/developers/applications
 # 0Auth2
 # client_id  = "1044604849871925330"
 # bot stuff
-# bot_token       = list(open("bot_token.txt", "r"))[0]
-bot_token       = list(open("test_bot_token.txt", "r"))[0]
+bot_token       = list(open("bot_token.txt", "r"))[0]
+# bot_token       = list(open("test_bot_token.txt", "r"))[0]
 permissions_int = 4393751543795
 
 """
