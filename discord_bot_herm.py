@@ -28,8 +28,8 @@ stuff from discord.com/developers/applications
 # 0Auth2
 # client_id  = "1044604849871925330"
 # bot stuff
-# bot_token       = list(open("bot_token.txt", "r"))[0]
-bot_token       = list(open("test_bot_token.txt", "r"))[0]
+bot_token       = list(open("bot_token.txt", "r"))[0]
+# bot_token       = list(open("test_bot_token.txt", "r"))[0]
 permissions_int = 4393751543795
 
 
@@ -43,7 +43,7 @@ client = discord.Client(
                         )
 
 bot = commands.Bot(
-                   command_prefix='..', 
+                   command_prefix='.', 
                    intents = discord.Intents.all()
                    # description = description,
                    # help_command = help_command
@@ -63,7 +63,7 @@ f, g, h       = symbols("f g h", cls=Function)
 init_printing()
 
  
-bot_name = bot.user()[0:-5]
+# bot_name = str( bot.user )[0:-5]
 
 
 """
@@ -72,6 +72,8 @@ the actual things that it does as function definitions
 
 @bot.event
 async def on_connect():
+    global bot_name
+    bot_name = str( bot.user )[0:-5]
     print("Connected.")
     test_chat_id = 1048222743860088902
     channel = bot.get_channel( test_chat_id )
@@ -92,16 +94,25 @@ async def on_connect():
 @bot.event
 async def on_ready():
     change_status.start()
-    print(str( bot.user() ) +" is ready.")
+    print(str( bot.user ) +" is ready.")
 
 
 
 # Josh's terrible bot is playing _________
-game_status   = ["with matrices", "with eigenvectors", "with python", "with mathematica", "with C++", "with square wells", "with harmonic oscillators"]
+game_status   = [
+                 "with matrices", "with eigenvectors", "with eigenvalues", "with python", "with mathematica", "with C++", "with square wells", "with harmonic oscillators", "coupled PDEs",
+                 "with a lobster", "with a pufferfish", "with a rock", "in tide pools"
+                 ]
 # Josh's terrible bot is listening to _________
-listen_status = ["Sasha talk about gold", "students cry", "screams of frustration"]
+listen_status = [
+                 "Sasha talk about gold", "students cry", "frustrated grumbling",
+                 "waves crash"
+                 ]
 # Josh's terrible bot is watching _________
-watch_status  = ["students weep"]
+watch_status  = [
+                 "students weep", "refrigerator doors close",
+                 "fish swim by"
+                 ]
 @tasks.loop(minutes = 5)
 async def change_status():
     presence_type = ( np.random.randint(len(game_status) + len(listen_status) + len(watch_status)) + 1 )
@@ -342,41 +353,19 @@ async def sym_docs(ctx):
     await ctx.send("https://docs.sympy.org/latest/index.html")
 
 @bot.command(aliases = ["kill_bot", "murder_bot", "slay_bot", "kill_yourself", "kys", "killyourself"])
-async def go_die(ctx):
+async def go_die(ctx, just_kidding):
     enabled = True
     
-    name        = str(bot.user)
     strings = [
-                # " was slain.",
-                # " was eviscerated.",
-                # " was murdered.",
-                "'s face was torn off.",
-                # " was destroyed.",
-                "'s skull was crushed.",
-                # " got massacred.",
-                " got impaled.",
-                " was torn in half.",
-                " was decapitated.",
-                " let their arms get torn off.",
-                " watched their innards become outards.",
-                " was brutally dissected.",
-                "'s extremities were detached.",
-                "'s body was mangled.",
-                "'s vital organs were ruptured.",
-                " was turned into a pile of flesh.",
-                # " was removed from "+ server_name +".",
-                " got snapped in half.",
-                " was cut down the middle.",
-                " was chopped up.",
-                "'s plea for death was answered.",
-                "'s meat was ripped off the bone.",
-                # "'s flailing about was finally stopped.",
-                " had their head removed.",
-                " lost their head."
-                ]
-    death = name + strings[ np.random.randint(len(strings)) ]
-    
-    # await bot.send_message(, user +" has killed the bot.")
+               " had overdetermined bountary conditions",
+               "'s integral did not converge",
+               "'s 2 hours of work ended with 1=2",
+               " missed a negative sign 3 hours ago",
+               " broke the 2nd law of thermo",
+               " had to deal a refrigerator"
+               ]
+    # bot_name = str( bot.user() )[0:-5]
+    death = bot_name + strings[ np.random.randint(len(strings)) ]
     await ctx.send( death )
     
     if enabled:
@@ -425,7 +414,7 @@ async def symdo(ctx, math_message):
 async def spam_the_bee_movie(ctx):
     global spam_things
     spam_things = True
-    script = open("bee_movie.txt","r")
+    script = open("bee_movie.txt", "r")
     while spam_things: 
         for line in script:
             if not spam_things:
