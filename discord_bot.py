@@ -646,9 +646,9 @@ async def tic_tac_toe(ctx):
         first = "yes"
         
         if first=="no":
-            """
+            ""
             have computer place piece : 
-            """
+            ""
             #if the center is open, take the center 80% of the time : 
             chance=np.random.randint(1,10+1) #num btwn 1-10
             blocked=0
@@ -769,12 +769,12 @@ async def tic_tac_toe(ctx):
             pieceLoc.append( [l,t] )
             placeNum+=1
             await ctx.send( board(pieceLoc) )
-            """
+            ""
             board(a)
             for i in np.arange(0,( len(eval("pL")) ),1):
                 eval(pL[i])
             plt.show()
-            """
+            ""
             #check wins
             if checkWin(pieceLoc,t)==True:
                 #cpuSpeak.lose()
@@ -791,9 +791,9 @@ async def tic_tac_toe(ctx):
                 ties+=1
                 break
             
-            """
+            ""
     have computer place piece : 
-            """
+            ""
             time.sleep(1)
             #computer checks to see if the next move will let the computer win the game : 
             checkLoc=[]
@@ -874,19 +874,19 @@ async def tic_tac_toe(ctx):
                 lC=p9
             
             #plot piece : 
-            """
+            ""
             pL.append( "place("+str(lC)+","+str(tC)+")" )
-            """
+            ""
             await ctx.send("CPU's move: ")
             pieceLoc.append([lC,tC])
             placeNum+=1
             await ctx.send( board(pieceLoc) )
-            """
+            ""
             board(a)
             for i in np.arange(0,( len(eval("pL")) ),1):
                 eval(pL[i])
             plt.show()
-            """
+            ""
             #check wins : 
             if checkWin(pieceLoc,t)==True:
                 #cpuSpeak.lose()
