@@ -5,7 +5,7 @@ Created on Tue Nov 22 08:28:49 2022
 @author: Joshua Maldonado
 @email:  joshuamaldonado4432@gmail.com
 
-this is a test to see if a change will trigger the bot scraper
+test to see if a change will trigger the bot scraper
 """
 
 #from useful_functions import *
