@@ -188,6 +188,21 @@ async def leave(ctx):
 
 # regular commands
 
+@bot.command()
+async def update_gold_mentions(ctx, times_mentioned_since_previous_update):
+    times_mentioned_before = list(open("sasha_gold_mentions.txt", "r"))[-1]
+    with open('sasha_gold_mentions.txt', 'w') as f:
+        f.write(str( int(times_mentioned_before )+ int(times_mentioned_since_previous_update) ))
+    
+    gold += int(times_mentioned_since_previous_update)
+    
+    await ctx.send("updated \:)")
+
+@bot.command()
+async def gold_mentions(ctx):
+    times_mentioned = list(open("sasha_gold_mentions.txt", "r"))[-1]
+    await ctx.send("Times gold has *not* been mentioned in lecture this semester: "+ str(times_mentioned))
+
 @bot.command(name = "bot_input", description = "for testing inputs from discord into python script", category = "testing")
 async def bot_input(ctx, the_input):
     await ctx.send("the input was: \""+ str(the_input) +"\"")
