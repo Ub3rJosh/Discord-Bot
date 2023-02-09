@@ -5,7 +5,6 @@ Created on Tue Nov 22 08:28:49 2022
 @author: Joshua Maldonado
 @email:  joshuamaldonado4432@gmail.com
 
-invite link: https://discord.com/api/oauth2/authorize?client_id=1044604849871925330&permissions=4398046510833&scope=bot
 """
 
 #from useful_functions import *
