@@ -368,7 +368,7 @@ async def sym_docs(ctx):
     await ctx.send("https://docs.sympy.org/latest/index.html")
 
 @bot.command(aliases = ["kill_bot", "murder_bot", "slay_bot", "kill_yourself", "kys", "killyourself"])
-async def go_die(ctx, just_kidding):
+async def go_die(ctx):
     enabled = True
     
     strings = [
