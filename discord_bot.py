@@ -915,11 +915,11 @@ async def tic_tac_toe(ctx):
                 await ctx.send("Setting up another game!")
                 typo=0
             elif playMore=="no":
-                """
+                ""
                 print("")
                 print("")
                 print("Thanks for playing!")
-                """
+                ""
                 message = ("- - - - - - - - - - - - - - - - - - - - - - - - - - -" +"\n"+ ("Game Stats : ") +"\n"+("Games played : "+str(games)) +"\n"+("        Wins : "+str(wins)) +"\n"+("        Ties : "+str(ties)) +"\n"+("      Losses : "+str(losses)) +"\n")
                 message += "\n"
                 
