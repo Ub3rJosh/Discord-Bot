@@ -5,6 +5,8 @@ Created on Tue Nov 22 08:28:49 2022
 @author: Joshua Maldonado
 @email:  joshuamaldonado4432@gmail.com
 
+  invite link: https://discord.com/api/oauth2/authorize?client_id=1044604849871925330&permissions=4398046510833&scope=bot
+test bot link: https://discord.com/api/oauth2/authorize?client_id=1067784032638742549&permissions=4398046511091&scope=bot
 """
 
 #from useful_functions import *
@@ -15,6 +17,7 @@ import random
 import discord
 import asyncio
 from discord.ext import commands, tasks
+# from git import Repo
 
 
 
@@ -41,12 +44,12 @@ client = discord.Client(
                         )
 
 bot = commands.Bot(
-                   command_prefix='..', 
+                   command_prefix='bubbles.', 
                    intents = discord.Intents.all()
                    )
 
 
-# bot.remove_command('help')
+bot.remove_command('help')
 """
 lots of various definitions and such to make things work
 """
@@ -59,7 +62,7 @@ f, g, h       = symbols("f g h", cls=Function)
 # init_printing(use_unicode=True)
 init_printing()
 
- 
+
 
 
 
@@ -69,23 +72,20 @@ the actual things that it does as function definitions
 
 @bot.event
 async def on_connect():
+    global bot_name
+    bot_name = str( bot.user )[0:-5]
+
     print("Connected.")
     test_chat_id = 1048222743860088902
     channel = bot.get_channel( test_chat_id )
     print("test_chat id is: "+ str(test_chat_id))
     
-    flag = 0
-    for i in range(5):
-        try:
-            await channel.send(str(bot.user) +" has been summoned")
-            break
-        except:
-            flag += 1
-            print("trying to send message in "+ str(test_chat_id))
-    if flag == 5:
-        print("failed to send message")
-    
-    
+    try:
+        await channel.send(str(bot.user) +" has been summoned")
+    except:
+        print("failed to send message.")
+
+
 @bot.event
 async def on_ready():
     change_status.start()
@@ -94,11 +94,11 @@ async def on_ready():
 
 
 # Josh's terrible bot is playing _________
-game_status   = ["a videogame", "with a yo-yo", "with another bot", "with a stick", "board games", "at the playground", "with a raccoon", "with a kitten", "with two kittens", "with a lobster", "in a pond", "with fire", "with legos"]
+game_status   = ["with another fish", "with a crab", "with some kelp", "with herm"]
 # Josh's terrible bot is listening to _________
-listen_status = ["a really good song", "a conversation", "KIDZ BOP 32", "a podcast"]
+listen_status = ["motorboats"]
 # Josh's terrible bot is watching _________
-watch_status  = ["The Bee Movie", "cat videos", "you waste time", "paint dry", "water boil", "you", "Shrek: The Third"]
+watch_status  = ["the fish swim by", "a diver"]
 @tasks.loop(minutes = 5)
 async def change_status():
     presence_type = ( np.random.randint(len(game_status) + len(listen_status) + len(watch_status)) + 1 )
@@ -174,7 +174,7 @@ async def leave(ctx):
 
 # regular commands
 
-@bot.command(name = "bot_input", description = "for testing inputs from discord into python script")
+@bot.command()
 async def bot_input(ctx, the_input):
     await ctx.send("the input was: \""+ str(the_input) +"\"")
     return the_input
@@ -190,7 +190,7 @@ async def ping(ctx):
     ping  =  round(ping_ * 1000)
     await ctx.send(f"my ping is {ping}ms")
 
-@bot.command(aliases = ["_help", "bothelp", "helpbot", "helpmenu", "help_menu"])
+@bot.command(aliases = ["help", "_help", "bothelp", "helpbot", "helpmenu", "help_menu"])
 async def bot_help(ctx):
     
     # be careful, there is a 2,000 char limit in discord messages
@@ -226,6 +226,20 @@ async def bot_help(ctx):
         help_string += "\n"
     
     await ctx.send(help_string)
+
+@bot.command()
+async def update_gold_mentions(ctx, times_mentioned_since_previous_update):
+    times_mentioned_before = list(open("sasha_gold_mentions.txt", "r"))[-1]
+    with open('sasha_gold_mentions.txt', 'w') as f:
+        f.write(str( int(times_mentioned_before )+ int(times_mentioned_since_previous_update) ))
+    
+    await ctx.send("updated \:)")
+
+@bot.command()
+async def gold_mentions(ctx):
+    times_mentioned = list(open("sasha_gold_mentions.txt", "r"))[-1]
+    await ctx.send("Times gold has *not* been mentioned in lecture this semester: "+ times_mentioned)
+
 
 @bot.command(aliases = ["coinflip", "flip_coin", "flipcoin"])
 async def coin_flip(ctx):
@@ -342,34 +356,12 @@ async def sym_docs(ctx):
 async def go_die(ctx):
     enabled = True
     
-    name        = str(bot.user)
+    name        = bot_name
     strings = [
-                # " was slain.",
-                # " was eviscerated.",
-                # " was murdered.",
-                "'s face was torn off.",
-                # " was destroyed.",
-                "'s skull was crushed.",
-                # " got massacred.",
-                " got impaled.",
-                " was torn in half.",
-                " was decapitated.",
-                " let their arms get torn off.",
-                " watched their innards become outards.",
-                " was brutally dissected.",
-                "'s extremities were detached.",
-                "'s body was mangled.",
-                "'s vital organs were ruptured.",
-                " was turned into a pile of flesh.",
-                # " was removed from "+ server_name +".",
-                " got snapped in half.",
-                " was cut down the middle.",
-                " was chopped up.",
-                "'s plea for death was answered.",
-                "'s meat was ripped off the bone.",
-                # "'s flailing about was finally stopped.",
-                " had their head removed.",
-                " lost their head."
+                " puffed a bit too hard",
+                " popped",
+                " swam away",
+                " got eaten by a dolphin"
                 ]
     death = name + strings[ np.random.randint(len(strings)) ]
     
@@ -472,499 +464,6 @@ async def respond_to_message_id(ctx, emoji, chat_id):
     msg = await channel.fetch_message(chat_id)
     await msg.add_reaction(emoji)
 
-
-"""
-tic tac toe stuff
-"""
-pos1=1.5
-pos2=4.5
-pos3=7.5
-p1=[pos1,pos3]
-p2=[pos2,pos3]
-p3=[pos3,pos3]
-p4=[pos1,pos2]
-p5=[pos2,pos2]
-p6=[pos3,pos2]
-p7=[pos1,pos1]
-p8=[pos2,pos1]
-p9=[pos3,pos1]
-@bot.command()
-async def tic_tac_toe(ctx):
-    def check(m: discord.Message):
-        return m.author.id == ctx.author.id and m.channel.id == ctx.channel.id 
-    
-    def checkWin(locList,pieceT):
-        win=False
-        #test for horizontal wins : 
-        for n in [1,4,7]:
-            if [eval("p"+str(n)),pieceT] in locList and [eval("p"+str(n+1)),pieceT] in locList and [eval("p"+str(n+2)),pieceT] in locList:
-                  win=True
-                  #print("Horizontal win condition met.")
-                  break
-        #test for vertical wins : 
-        for n in [1,2,3]:
-            if [eval("p"+str(n)),pieceT] in locList and [eval("p"+str(n+3)),pieceT] in locList and [eval("p"+str(n+6)),pieceT] in locList:
-                  win=True
-                  #print("Vertical win condition met.")
-                  break
-        #manually test for diagonal wins : 
-        if [eval("p1"),pieceT] in locList and [eval("p5"),pieceT] in locList and [eval("p9"),pieceT] in locList:
-            win=True
-            #print("Diagonal win condition met.")
-        if [eval("p3"),pieceT] in locList and [eval("p5"),pieceT] in locList and [eval("p7"),pieceT] in locList:
-            win=True
-            #print("Diagonal win condition met.")
-        #print("Win condition = "+str(win))
-        return win
-    
-    def board(pieceLoc):
-        #original placements:
-        row1="|p1 |p2 |p3 |"
-        row2="|p4 |p5 |p6 |"
-        row3="|p7 |p8 |p9 |"
-        
-        #replace positions in each row:
-        for rowNum in range(1,3+1):
-            for char in range( len( eval("row"+str(rowNum)) )-1 ):
-                #print(char)
-                #scan for 'p':
-                board_pos=( eval("row"+str(rowNum))[char] + eval("row"+str(rowNum))[char+1] )
-                #print(board_pos)
-                if eval("row"+str(rowNum))[char]=="p": #if you hit a p, check the number:
-                    #board_pos=( eval("row"+str(rowNum))[char] + eval("row"+str(rowNum))[char+1] )
-                    #print(board_pos)
-                    #check to see if this position is in pieceLoc:
-                    for i in range(len(pieceLoc)):
-                        if pieceLoc[i][0]==eval(board_pos):
-                            if pieceLoc[i][1]==0:
-                                #print("o placed")
-                                if rowNum==1:
-                                    row1 = eval("row"+str(rowNum)).replace(board_pos," o")
-                                if rowNum==2:
-                                    row2 = eval("row"+str(rowNum)).replace(board_pos," o")
-                                if rowNum==3:
-                                    row3 = eval("row"+str(rowNum)).replace(board_pos," o")
-                            elif pieceLoc[i][1]==1:
-                                #print("x placed")
-                                if rowNum==1:
-                                    row1 = eval("row"+str(rowNum)).replace(board_pos," x")
-                                if rowNum==2:
-                                    row2 = eval("row"+str(rowNum)).replace(board_pos," x")
-                                if rowNum==3:
-                                    row3 = eval("row"+str(rowNum)).replace(board_pos," x")
-                    #fill in empty spots with gaps
-                    if rowNum==1:
-                        row1 = eval("row"+str(rowNum)).replace(board_pos,"  ")
-                    if rowNum==2:
-                        row2 = eval("row"+str(rowNum)).replace(board_pos,"  ")
-                    if rowNum==3:
-                        row3 = eval("row"+str(rowNum)).replace(board_pos,"  ")
-            #print("row"+str(rowNum)+": "+str(eval("row"+str(rowNum))))
-        
-        #print("The board : ")
-        return ("`" + "\u0332".join( row1 ) +"\n"+ "\u0332".join( row2 )  +"\n"+ "\u0332".join( row3 ) +"`")
-        # return ("`"+ "\u0332".join("             ") +"\n"+ "\u0332".join( row1 ) +"\n"+ "\u0332".join( row2 )  +"\n"+ "\u0332".join( row3 ) +"`")
-    
-    # variable setup
-    time_length = 20
-    
-    #The Game Setup:
-    wins=0
-    losses=0
-    ties=0
-    loop=1
-    more=1
-    games=0
-    turns=0
-    pieceLoc=[] #[([px,py],t),([px,py],t),([px,py],t)] This is for checking where pieces are
-    pL=[]       #[(l,t),(l,t),(l,t),(l,t)] This is for placing the pieces
-    typo=0
-    block=0
-    placeNum=0
-    
-    #The Game:
-    moreGames=True
-    while moreGames==True:
-        await ctx.send("Board Positions: " +"\n"+ "\u0332".join("`| 1 | 2 | 3 |`") +"\n"+ "\u0332".join("`| 4 | 5 | 6 |`") +"\n"+ "\u0332".join("`| 7 | 8 | 9 |`"))
-        
-        #variable setup : 
-        openLoc=[1,2,3,4,5,6,7,8,9]
-        pieceLoc=[]
-        pL=[]
-        games+=1
-        winCondition=0
-        
-        
-        #get user gamepiece type : 
-        typo=1
-        while typo==1:
-            await ctx.send("What type of piece? (x/o) : ")
-            try:
-                # ttype = await bot.wait_for('message', check=check(context.author), timeout = 10.0)
-                ttype = ( await bot.wait_for('message', check = check, timeout = 10.0) ).content
-            except:
-                await ctx.send("timeout error")
-                return
-            else:
-                None
-                # await ctx.send("input recieved as: "+ ttype)
-            
-            if ttype=='x':
-                t=1
-                tC=0
-                typo=0
-            elif ttype=='o':
-                t=0
-                tC=1
-                typo=0
-            else:
-                await ctx.send("You've made a typo.")
-                time.sleep( time_length )
-                await ctx.send("Try again.")
-        
-        # #ask if the person would like to go first:
-        # typo=True
-        # while typo:
-        #     # first=str(input("Would you like to go first? (yes/no) : "))
-        #     await ctx.send("Would you like to go first? (yes/no) : ")
-        #     try:
-        #         first = ( await bot.wait_for('message', check = check, timeout = 10.0) ).content
-        #     except:
-        #         await ctx.send("timeout error")
-        #         return
-        #     else:
-        #         None
-            
-        #     if first=="yes" or first=="no":
-        #         typo=False
-        #     else:
-        #         await ctx.send("You've made a typo.")
-        #         time.sleep( time_length )
-        #         await ctx.send("Try again.")
-        #         possible=1
-        first = "yes"
-        
-        if first=="no":
-            """
-            have computer place piece : 
-            """
-            #if the center is open, take the center 80% of the time : 
-            chance=np.random.randint(1,10+1) #num btwn 1-10
-            blocked=0
-            if 5 in openLoc:
-                #print(chance)
-                if chance<=9:
-                    #cpuSpeak.center()
-                    lC=5
-                    blocked=1
-            #computer places piece randomly :
-            possible=1
-            numtest=0
-            while possible==1 and blocked==0:
-                possible=0
-                lC=np.random.randint(1,10,1)[0]
-                if lC!=5:
-                    for i in np.arange(0,len(pieceLoc),1):
-                        if pieceLoc[i][0]==eval("p"+str(lC)):
-                            numtest+=1
-                            possible=1
-            openLoc.remove(lC)
-            if lC==1:
-                lC=p1
-            if lC==2:
-                lC=p2
-            if lC==3:
-                lC=p3
-            if lC==4:
-                lC=p4
-            if lC==5:
-                lC=p5
-            if lC==6:
-                lC=p6
-            if lC==7:
-                lC=p7
-            if lC==8:
-                lC=p8
-            if lC==9:
-                lC=p9
-            
-            #plot piece : 
-            await ctx.send("CPU's move: ")
-            pieceLoc.append([lC,tC])
-            placeNum+=1
-            await ctx.send( board(pieceLoc) )
-        
-        #the game itself : 
-        while more==1:
-            #check to see if board is full : 
-            if len(pieceLoc)>=9:
-                await ctx.send("Cat game!")
-                break
-            
-            turns+=1
-            typo=1
-            possible=1
-            while typo==1:
-                #ask where to get the next piece : 
-                while possible==1:
-                    possible=0
-                    # loc=int(input("Where do you want to place the next piece? (1-9) : "))
-                    await ctx.send("Where do you want to place the next piece? (1-9) : ")
-                    try:
-                        loc = ( await bot.wait_for('message', check = check, timeout = 10.0) ).content
-                        loc = int(loc)
-                        
-                        for i in np.arange(0,len(pieceLoc),1):
-                            if pieceLoc[i][0]==eval("p"+str(loc)):
-                                await ctx.send("That spot has a piece in it already."+ "\n" +"Try again.")
-                                possible=1
-                        
-                        typo = 0
-                    except:
-                        await ctx.send("timeout error")
-                        return
-                    else:
-                        None
-                    
-                    
-                    
-                #check to see if the location is even on the board : 
-                openLoc.remove(loc)
-                if loc==1:
-                    l=p1
-                    typo=0
-                if loc==2:
-                    l=p2
-                    typo=0
-                if loc==3:
-                    l=p3
-                    typo=0
-                if loc==4:
-                    l=p4
-                    typo=0
-                if loc==5:
-                    l=p5
-                    typo=0
-                if loc==6:
-                    l=p6
-                    typo=0
-                if loc==7:
-                    l=p7
-                    typo=0
-                if loc==8:
-                    l=p8
-                    typo=0
-                if loc==9:
-                    l=p9
-                    typo=0
-                if loc!=1 and loc!=2 and loc!=3 and loc!=4 and loc!=5 and loc!=6 and loc!=7 and loc!=8 and loc!=9:
-                    #print("")
-                    await ctx.send("That spot has a piece in it already.")
-                    time.sleep( time_length )
-                    await ctx.send("Try again.")
-            
-            #place piece and store its location
-            pL.append( "place("+str(l)+","+str(t)+")" )
-            pieceLoc.append( [l,t] )
-            placeNum+=1
-            await ctx.send( board(pieceLoc) )
-            """
-            board(a)
-            for i in np.arange(0,( len(eval("pL")) ),1):
-                eval(pL[i])
-            plt.show()
-            """
-            #check wins
-            if checkWin(pieceLoc,t)==True:
-                #cpuSpeak.lose()
-                await ctx.send("You win!")
-                wins+=1
-                break
-            if checkWin(pieceLoc,tC)==True:
-                await ctx.send("You lose!")
-                losses+=1
-                break
-            #check to see if board is full : 
-            if len(pieceLoc)>=9:
-                await ctx.send("Cat game!")
-                ties+=1
-                break
-            
-            """
-    have computer place piece : 
-            """
-            time.sleep(1)
-            #computer checks to see if the next move will let the computer win the game : 
-            checkLoc=[]
-            grabWin=0
-            spoke=False
-            for i in np.arange(len(pieceLoc)):
-                checkLoc.append( pieceLoc[i] )
-            for i in openLoc:
-                checkLoc.append( [eval("p"+str(i)),tC] )
-                if checkWin(checkLoc,tC)==True:
-                    #cpuSpeak.win()
-                    lC=i
-                    grabWin=1
-                    break
-                del checkLoc[-1]
-                if grabWin==1:
-                    break
-            
-            if grabWin==0:
-                #computer checks to see if user will win in the next move : 
-                checkLoc=[]
-                blocked=0
-                speak=[]
-                for i in np.arange(len(pieceLoc)):
-                    checkLoc.append( pieceLoc[i] )
-                for i in openLoc:
-                    checkLoc.append( [eval("p"+str(i)),t] )
-                    if checkWin(checkLoc,t)==True and blocked==0:
-                        #cpuSpeak.block(i)
-                        block+=1
-                        lC=i
-                        for i in np.arange(0,len(pieceLoc),1):
-                            if pieceLoc[i][0]!=eval("p"+str(lC)):
-                                blocked=1
-                                break
-                    del checkLoc[-1]
-                    
-                
-                #if the center is open, take the center 80% of the time : 
-                chance=np.random.randint(1,10+1)
-                if 5 in openLoc:
-                    if chance<=9:
-                        #cpuSpeak.center()
-                        lC=5
-                        blocked=1
-                #computer places piece randomly :
-                possible=1
-                numtest=0
-                spoke=False
-                while possible==1 and blocked==0:
-                    possible=0
-                    lC=np.random.randint(1,10,1)[0]
-                    for i in np.arange(0,len(pieceLoc),1):
-                        if pieceLoc[i][0]==eval("p"+str(lC)):
-                            numtest+=1
-                            possible=1
-                    if spoke==False:
-                        #cpuSpeak.rand()
-                        spoke=True
-            openLoc.remove(lC)
-            if lC==1:
-                lC=p1
-            if lC==2:
-                lC=p2
-            if lC==3:
-                lC=p3
-            if lC==4:
-                lC=p4
-            if lC==5:
-                lC=p5
-            if lC==6:
-                lC=p6
-            if lC==7:
-                lC=p7
-            if lC==8:
-                lC=p8
-            if lC==9:
-                lC=p9
-            
-            #plot piece : 
-            """
-            pL.append( "place("+str(lC)+","+str(tC)+")" )
-            """
-            await ctx.send("CPU's move: ")
-            pieceLoc.append([lC,tC])
-            placeNum+=1
-            await ctx.send( board(pieceLoc) )
-            """
-            board(a)
-            for i in np.arange(0,( len(eval("pL")) ),1):
-                eval(pL[i])
-            plt.show()
-            """
-            #check wins : 
-            if checkWin(pieceLoc,t)==True:
-                #cpuSpeak.lose()
-                await ctx.send("You win!")
-                wins+=1
-                break
-            if checkWin(pieceLoc,tC)==True:
-                await ctx.send("You lose!")
-                losses+=1
-                break
-        
-        #ask if the player wants to play again : 
-        typo=1
-        while typo==1:
-            # playMore = input("Would you like to play another game? (yes/no) : ")
-            await ctx.send("Would you like to play another game? (yes/no) : ")
-            try:
-                playMore= ( await bot.wait_for('message', check = check, timeout = 20.0) ).content
-            except:
-                await ctx.send("timeout error")
-                return
-            else:
-                None
-            
-            if playMore=="yes":
-                await ctx.send("Setting up another game!")
-                typo=0
-            elif playMore=="no":
-                """
-                print("")
-                print("")
-                print("Thanks for playing!")
-                """
-                message = []
-                message.append("- - - - - - - - - - - - - - - - - - - - - - - - - - -" +"\n"+ ("Game Stats : ") +"\n"+("Games played : "+str(games)) +"\n"+("        Wins : "+str(wins)) +"\n"+("        Ties : "+str(ties)) +"\n"+("      Losses : "+str(losses)) +"\n")
-                message.append("\n")
-                
-                message.append("Fun Facts : ")
-                message.append("\n")
-                if wins>losses:
-                    message.append("- Yay, you won more than you lost!")
-                    message.append("\n")
-                elif wins < losses:
-                    message.append("- Rekt, you lost more than you won!")
-                    message.append("\n")
-                else:
-                    message.append("- You tied with the computer in wins and losses!")
-                    message.append("\n")
-                
-                if ties>=0.5*games:
-                    message.append("- Woah, that's a lot of tied games!")
-                    message.append("\n")
-                
-                if block==1:
-                    message.append("- You were blocked "+str(block)+" time!")
-                    message.append("\n")
-                elif block>1:
-                    message.append("- You were blocked "+str(block)+" times!")
-                    message.append("\n")
-                message.append("- There were "+str(placeNum)+" pieces placed!")
-                message.append("\n")
-                message.append("- - - - - - - - - - - - - - - - - - - - - - - - - - -")
-                typo=0
-                moreGames=False
-                
-                the_message = ""
-                print(message)
-                for i in range(len(message)):
-                    if (message[i] != "\n"):
-                        while (len(message[i]) < 53):
-                            message[i] += " "
-                    the_message += message[i]
-                    print("the line: \"("+ message[i] +")\"")
-                print(the_message)
-                await ctx.send("`"+ the_message +"`")
-            else:
-                await ctx.send("You've made a typo.")
-                time.sleep( time_length )
-                await ctx.send("Try again.")
 
 
 
