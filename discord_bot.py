@@ -489,6 +489,8 @@ p8=[pos2,pos1]
 p9=[pos3,pos1]
 @bot.command()
 async def tic_tac_toe(ctx):
+  await ctx.send("currently under repairs")
+  """
     def check(m: discord.Message):
         return m.author.id == ctx.author.id and m.channel.id == ctx.channel.id 
     
@@ -954,7 +956,7 @@ async def tic_tac_toe(ctx):
                 await ctx.send("You've made a typo.")
                 time.sleep( time_length )
                 await ctx.send("Try again.")
-
+"""
 
 
 
