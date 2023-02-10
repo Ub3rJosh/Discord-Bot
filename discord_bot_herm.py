@@ -100,17 +100,17 @@ async def on_ready():
 
 # Josh's terrible bot is playing _________
 game_status   = [
-                 "with matrices", "with eigenvectors", "with eigenvalues", "with python", "with mathematica", "with C++", "with square wells", "with harmonic oscillators", "coupled PDEs",
+                 "with matrices", "with eigenvectors", "with eigenvalues", "with python", "with mathematica", "with C++", "with harmonic oscillators", "coupled PDEs",
                  "with a lobster", "with a pufferfish", "with a rock", "in tide pools"
                  ]
 # Josh's terrible bot is listening to _________
 listen_status = [
-                 "Sasha talk about gold", "students cry", "frustrated grumbling",
+                 "Sasha talk about gold", "frustrated grumbling",
                  "waves crash"
                  ]
 # Josh's terrible bot is watching _________
 watch_status  = [
-                 "students weep", "refrigerator doors close",
+                 "refrigerator doors close",
                  "fish swim by"
                  ]
 @tasks.loop(minutes = 5)
@@ -229,12 +229,14 @@ async def bot_help(ctx):
                # "`  .test                          - responds \"yay!\"                                       `",
                "`  .joke                          - says a terrible joke                                  `",
                "`  .coin_flip                     - flips a coin, heads or tails                          `",
-               "`  .roll_d4                       - rolls  4 sided die                                    `",
-               "`  .roll_d6                       - rolls  6 sided die                                    `",
-               "`  .roll_d8                       - rolls  8 sided die                                    `",
-               "`  .roll_d10                      - rolls 10 sided die                                    `",
-               "`  .roll_d12                      - rolls 12 sided die                                    `",
-               "`  .roll_d20                      - rolls 20 sided die                                    `",
+               "`  .gold_mentions                 - responds with times gold hasn't been mentioned        `",
+               "`  .update_gold_mentions \"int\"    - updates .gold_mentions amount by given int            `"
+            #    "`  .roll_d4                       - rolls  4 sided die                                    `",
+            #    "`  .roll_d6                       - rolls  6 sided die                                    `",
+            #    "`  .roll_d8                       - rolls  8 sided die                                    `",
+            #    "`  .roll_d10                      - rolls 10 sided die                                    `",
+            #    "`  .roll_d12                      - rolls 12 sided die                                    `",
+            #    "`  .roll_d20                      - rolls 20 sided die                                    `",
                # "`  .random_number \"int\"           - generates random number between 1 and given value     `",
                "`  .tic_tac_toe                   - played against you in tic-tac-toe                     `",
                "`  .spam_the_bee_movie            - spams the entire bee movie script                     `",
