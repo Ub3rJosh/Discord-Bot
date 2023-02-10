@@ -974,6 +974,15 @@ async def tic_tac_toe(ctx):
                 await ctx.send("Try again.")
 
 
+list_of_swears = list(open("sasha_gold_mentions.txt", "r"))
+@bot.event
+async def on_message(message):
+    server_name = message.guild.name
+
+    for swear in list_of_swears:
+        if message.contains(swear):
+            message.channe.reply("language!  -Captain America")
+    
 
 
 
