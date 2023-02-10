@@ -194,8 +194,6 @@ async def update_gold_mentions(ctx, times_mentioned_since_previous_update):
     with open('sasha_gold_mentions.txt', 'w') as f:
         f.write(str( int(times_mentioned_before )+ int(times_mentioned_since_previous_update) ))
     
-    gold += int(times_mentioned_since_previous_update)
-    
     await ctx.send("updated \:)")
 
 @bot.command()
