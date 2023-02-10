@@ -230,7 +230,7 @@ async def bot_help(ctx):
                "`  .joke                          - says a terrible joke                                  `",
                "`  .coin_flip                     - flips a coin, heads or tails                          `",
                "`  .gold_mentions                 - responds with times gold hasn't been mentioned        `",
-               "`  .update_gold_mentions \"int\"    - updates .gold_mentions amount by given int            `"
+               "`  .update_gold_mentions \"int\"    - updates .gold_mentions amount by given int            `",
                # "`  .roll_d4                       - rolls  4 sided die                                    `",
                # "`  .roll_d6                       - rolls  6 sided die                                    `",
                # "`  .roll_d8                       - rolls  8 sided die                                    `",
