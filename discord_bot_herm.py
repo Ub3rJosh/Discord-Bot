@@ -231,12 +231,12 @@ async def bot_help(ctx):
                "`  .coin_flip                     - flips a coin, heads or tails                          `",
                "`  .gold_mentions                 - responds with times gold hasn't been mentioned        `",
                "`  .update_gold_mentions \"int\"    - updates .gold_mentions amount by given int            `"
-            #    "`  .roll_d4                       - rolls  4 sided die                                    `",
-            #    "`  .roll_d6                       - rolls  6 sided die                                    `",
-            #    "`  .roll_d8                       - rolls  8 sided die                                    `",
-            #    "`  .roll_d10                      - rolls 10 sided die                                    `",
-            #    "`  .roll_d12                      - rolls 12 sided die                                    `",
-            #    "`  .roll_d20                      - rolls 20 sided die                                    `",
+               # "`  .roll_d4                       - rolls  4 sided die                                    `",
+               # "`  .roll_d6                       - rolls  6 sided die                                    `",
+               # "`  .roll_d8                       - rolls  8 sided die                                    `",
+               #  '  .roll_d10                      - rolls 10 sided die                                    `",
+               #    "`  .roll_d12                      - rolls 12 sided die                                    `",
+               #    "`  .roll_d20                      - rolls 20 sided die                                    `",
                # "`  .random_number \"int\"           - generates random number between 1 and given value     `",
                "`  .tic_tac_toe                   - played against you in tic-tac-toe                     `",
                "`  .spam_the_bee_movie            - spams the entire bee movie script                     `",
@@ -374,10 +374,10 @@ async def go_die(ctx):
     strings = [
                " had overdetermined bountary conditions",
                "'s integral did not converge",
-               "'s 2 hours of work ended with 1=2",
+               "'s hours of work ended with showing 0 = 1",
                " missed a negative sign 3 hours ago",
                " broke the 2nd law of thermo",
-               " had to deal a refrigerator"
+               " had to deal a refrigerator door"
                ]
     # bot_name = str( bot.user() )[0:-5]
     death = bot_name + strings[ np.random.randint(len(strings)) ]
