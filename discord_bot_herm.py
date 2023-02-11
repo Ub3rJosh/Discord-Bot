@@ -974,6 +974,7 @@ async def tic_tac_toe(ctx):
                 await ctx.send("Try again.")
 
 
+# this is broken right now :(
 # list_of_swears = list(open("sasha_gold_mentions.txt", "r"))
 # @bot.event
 # async def on_message(message):
