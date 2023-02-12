@@ -105,7 +105,7 @@ game_status   = [
                  ]
 # Josh's terrible bot is listening to _________
 listen_status = [
-                 "Sasha talk about gold", "frustrated grumbling",
+                 "Sasha talk about gold",
                  "waves crash"
                  ]
 # Josh's terrible bot is watching _________
