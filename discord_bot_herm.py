@@ -43,7 +43,7 @@ client = discord.Client(
                         )
 
 bot = commands.Bot(
-                   command_prefix='.', 
+                   command_prefix='herm.', 
                    intents = discord.Intents.all()
                    # description = description,
                    # help_command = help_command
@@ -105,7 +105,7 @@ game_status   = [
                  ]
 # Josh's terrible bot is listening to _________
 listen_status = [
-                 "Sasha talk about gold",
+                 "Sasha talk about gold", "frustrated grumbling",
                  "waves crash"
                  ]
 # Josh's terrible bot is watching _________
@@ -199,7 +199,7 @@ async def update_gold_mentions(ctx, times_mentioned_since_previous_update):
 @bot.command()
 async def gold_mentions(ctx):
     times_mentioned = list(open("sasha_gold_mentions.txt", "r"))[-1]
-    await ctx.send("Times gold has *not* been mentioned in lecture this semester: "+ str(times_mentioned))
+    await ctx.send("Times gold has *not* been mentioned: "+ str(times_mentioned))
 
 @bot.command(name = "bot_input", description = "for testing inputs from discord into python script", category = "testing")
 async def bot_input(ctx, the_input):
@@ -217,7 +217,7 @@ async def ping(ctx):
     ping  =  round(ping_ * 1000)
     await ctx.send(f"my ping is {ping}ms")
 
-@bot.command(aliases = ["_help", "bothelp", "helpbot", "helpmenu", "help_menu"])
+@bot.command(aliases = ["help", "_help", "bothelp", "helpbot", "helpmenu", "help_menu"])
 async def bot_help(ctx):
     
     # be careful, there is a 2,000 char limit in discord messages
@@ -974,7 +974,6 @@ async def tic_tac_toe(ctx):
                 await ctx.send("Try again.")
 
 
-# this is broken right now :(
 # list_of_swears = list(open("sasha_gold_mentions.txt", "r"))
 # @bot.event
 # async def on_message(message):
