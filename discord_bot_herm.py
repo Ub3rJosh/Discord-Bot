@@ -497,6 +497,7 @@ p8=[pos2,pos1]
 p9=[pos3,pos1]
 @bot.command()
 async def tic_tac_toe(ctx):
+    username = ctx.message.author.display_name
     def check(m: discord.Message):
         return m.author.id == ctx.author.id and m.channel.id == ctx.channel.id 
     
@@ -588,33 +589,44 @@ async def tic_tac_toe(ctx):
     typo=0
     block=0
     placeNum=0
+    the_first_game = True
     
     #The Game:
     moreGames=True
     while moreGames==True:
-        await ctx.send("Board Positions: " +"\n"+ "\u0332".join("`| 1 | 2 | 3 |`") +"\n"+ "\u0332".join("`| 4 | 5 | 6 |`") +"\n"+ "\u0332".join("`| 7 | 8 | 9 |`"))
-        
+        if the_first_game:
+            await ctx.send("Board Positions: " +"\n"+ "\u0332".join("`| 1 | 2 | 3 |`") +"\n"+ "\u0332".join("`| 4 | 5 | 6 |`") +"\n"+ "\u0332".join("`| 7 | 8 | 9 |`"))
+            the_first_game = False
+        else:
+            None
         #variable setup : 
         openLoc=[1,2,3,4,5,6,7,8,9]
         pieceLoc=[]
         pL=[]
         games+=1
         winCondition=0
+        first_board_placement = True
         
         
         #get user gamepiece type : 
-        typo=1
+        typo = 1
+        the_first_piece = True
+        messages_sent = 0
         while typo==1:
             await ctx.send("What type of piece? (x/o) : ")
+            messages_sent += 1
             try:
                 # ttype = await bot.wait_for('message', check=check(context.author), timeout = 10.0)
                 ttype = ( await bot.wait_for('message', check = check, timeout = 10.0) ).content
+                messages_sent += 1
             except:
                 await ctx.send("timeout error")
+                messages_sent += 1
                 return
             else:
                 None
                 # await ctx.send("input recieved as: "+ ttype)
+            # await ctx.channel.purge(limit = messages_sent)
             
             if ttype=='x':
                 t=1
@@ -625,36 +637,12 @@ async def tic_tac_toe(ctx):
                 tC=1
                 typo=0
             else:
-                await ctx.send("You've made a typo.")
-                time.sleep( time_length )
-                await ctx.send("Try again.")
+                await ctx.send("You've made a typo.\nTry again.")
+                messages_sent += 1
+        # await ctx.channel.purge(limit = messages_sent)
         
-        # #ask if the person would like to go first:
-        # typo=True
-        # while typo:
-        #     # first=str(input("Would you like to go first? (yes/no) : "))
-        #     await ctx.send("Would you like to go first? (yes/no) : ")
-        #     try:
-        #         first = ( await bot.wait_for('message', check = check, timeout = 10.0) ).content
-        #     except:
-        #         await ctx.send("timeout error")
-        #         return
-        #     else:
-        #         None
-            
-        #     if first=="yes" or first=="no":
-        #         typo=False
-        #     else:
-        #         await ctx.send("You've made a typo.")
-        #         time.sleep( time_length )
-        #         await ctx.send("Try again.")
-        #         possible=1
         first = "yes"
-        
         if first=="no":
-            """
-            have computer place piece : 
-            """
             #if the center is open, take the center 80% of the time : 
             chance=np.random.randint(1,10+1) #num btwn 1-10
             blocked=0
@@ -699,8 +687,11 @@ async def tic_tac_toe(ctx):
             await ctx.send("CPU's move: ")
             pieceLoc.append([lC,tC])
             placeNum+=1
-            await ctx.send( board(pieceLoc) )
-        
+            if first_board_placement:
+                board_message = await ctx.send( board(pieceLoc) )
+                first_board_placement = False
+            else:
+                await board_message.edit( content = board(pieceLoc) )
         #the game itself : 
         while more==1:
             #check to see if board is full : 
@@ -708,32 +699,37 @@ async def tic_tac_toe(ctx):
                 await ctx.send("Cat game!")
                 break
             
-            turns+=1
-            typo=1
-            possible=1
+            turns   += 1
+            typo     = 1
+            possible = 1
+            if not the_first_piece:
+                messages_sent = 0
+            else:
+                the_first_piece = False
             while typo==1:
                 #ask where to get the next piece : 
                 while possible==1:
                     possible=0
-                    # loc=int(input("Where do you want to place the next piece? (1-9) : "))
                     await ctx.send("Where do you want to place the next piece? (1-9) : ")
+                    messages_sent += 1
                     try:
                         loc = ( await bot.wait_for('message', check = check, timeout = 10.0) ).content
+                        messages_sent += 1
                         loc = int(loc)
                         
                         for i in np.arange(0,len(pieceLoc),1):
                             if pieceLoc[i][0]==eval("p"+str(loc)):
                                 await ctx.send("That spot has a piece in it already."+ "\n" +"Try again.")
+                                messages_sent += 1
                                 possible=1
                         
                         typo = 0
                     except:
                         await ctx.send("timeout error")
+                        messages_sent += 1
                         return
                     else:
                         None
-                    
-                    
                     
                 #check to see if the location is even on the board : 
                 openLoc.remove(loc)
@@ -766,21 +762,20 @@ async def tic_tac_toe(ctx):
                     typo=0
                 if loc!=1 and loc!=2 and loc!=3 and loc!=4 and loc!=5 and loc!=6 and loc!=7 and loc!=8 and loc!=9:
                     #print("")
-                    await ctx.send("That spot has a piece in it already.")
-                    time.sleep( time_length )
-                    await ctx.send("Try again.")
-            
+                    await ctx.send("That spot has a piece in it already.\nTry again.")
+                    messages_sent += 1
+            await ctx.channel.purge(limit = messages_sent)
+
             #place piece and store its location
             pL.append( "place("+str(l)+","+str(t)+")" )
             pieceLoc.append( [l,t] )
             placeNum+=1
-            await ctx.send( board(pieceLoc) )
-            """
-            board(a)
-            for i in np.arange(0,( len(eval("pL")) ),1):
-                eval(pL[i])
-            plt.show()
-            """
+            if first_board_placement:
+                board_message = await ctx.send( board(pieceLoc) )
+                first_board_placement = False
+            else:
+                await board_message.edit( content = board(pieceLoc) )
+            
             #check wins
             if checkWin(pieceLoc,t)==True:
                 #cpuSpeak.lose()
@@ -797,10 +792,8 @@ async def tic_tac_toe(ctx):
                 ties+=1
                 break
             
-            """
-    have computer place piece : 
-            """
-            time.sleep(1)
+            
+            # time.sleep(1)
             #computer checks to see if the next move will let the computer win the game : 
             checkLoc=[]
             grabWin=0
@@ -880,19 +873,15 @@ async def tic_tac_toe(ctx):
                 lC=p9
             
             #plot piece : 
-            """
-            pL.append( "place("+str(lC)+","+str(tC)+")" )
-            """
-            await ctx.send("CPU's move: ")
+            # await ctx.send("CPU's move: ")
             pieceLoc.append([lC,tC])
             placeNum+=1
-            await ctx.send( board(pieceLoc) )
-            """
-            board(a)
-            for i in np.arange(0,( len(eval("pL")) ),1):
-                eval(pL[i])
-            plt.show()
-            """
+            if first_board_placement:
+                board_message = await ctx.send( board(pieceLoc) )
+                first_board_placement = False
+            else:
+                await board_message.edit( content = board(pieceLoc) )
+            
             #check wins : 
             if checkWin(pieceLoc,t)==True:
                 #cpuSpeak.lose()
@@ -906,12 +895,15 @@ async def tic_tac_toe(ctx):
         
         #ask if the player wants to play again : 
         typo=1
+        messages_sent = 0
         while typo==1:
-            # playMore = input("Would you like to play another game? (yes/no) : ")
             await ctx.send("Would you like to play another game? (yes/no) : ")
+            messages_sent += 1
             try:
                 playMore= ( await bot.wait_for('message', check = check, timeout = 20.0) ).content
+                messages_sent += 1
             except:
+                # await ctx.channel.purge(limit = messages_sent)
                 await ctx.send("timeout error")
                 return
             else:
@@ -919,17 +911,26 @@ async def tic_tac_toe(ctx):
             
             if playMore=="yes":
                 await ctx.send("Setting up another game!")
+                messages_sent += 1
+                # time.sleep(1.5)
                 typo=0
+                await ctx.channel.purge(limit = messages_sent)
             elif playMore=="no":
-                """
-                print("")
-                print("")
-                print("Thanks for playing!")
-                """
+                await ctx.channel.purge(limit = messages_sent)
+
                 message = []
-                message.append("- - - - - - - - - - - - - - - - - - - - - - - - - - -" +"\n"+ ("Game Stats : ") +"\n"+("Games played : "+str(games)) +"\n"+("        Wins : "+str(wins)) +"\n"+("        Ties : "+str(ties)) +"\n"+("      Losses : "+str(losses)) +"\n")
+                message.append("- - - - - - - - - - - - - - - - - - - - - - - - - - -")
                 message.append("\n")
-                
+                message.append("Game Stats for "+ username +": ")
+                message.append("\n")
+                message.append("Games played : "+ str(games))
+                message.append("\n")
+                message.append("        Wins : "+ str(wins))
+                message.append("\n")
+                message.append("        Ties : "+ str(ties))
+                message.append("\n")
+                message.append("      Losses : "+ str(losses))
+                message.append("\n")
                 message.append("Fun Facts : ")
                 message.append("\n")
                 if wins>losses:
@@ -959,19 +960,19 @@ async def tic_tac_toe(ctx):
                 moreGames=False
                 
                 the_message = ""
-                print(message)
+                # print(message)
                 for i in range(len(message)):
                     if (message[i] != "\n"):
                         while (len(message[i]) < 53):
                             message[i] += " "
-                    the_message += message[i]
-                    print("the line: \"("+ message[i] +")\"")
-                print(the_message)
-                await ctx.send("`"+ the_message +"`")
+                        the_message += ("`"+ message[i] +"`")
+                    else:
+                        the_message += message[i]
+                # print(the_message)
+                await ctx.send( the_message )
             else:
-                await ctx.send("You've made a typo.")
-                time.sleep( time_length )
-                await ctx.send("Try again.")
+                await ctx.send("You've made a typo.\nTry again.")
+                messages_sent += 1
 
 
 # list_of_swears = list(open("sasha_gold_mentions.txt", "r"))
