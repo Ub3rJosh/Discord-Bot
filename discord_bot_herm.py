@@ -223,15 +223,15 @@ async def ping(ctx):
 async def bot_help(ctx):
     
     # be careful, there is a 2,000 char limit in discord messages
-    strings = ["`                               - - - bot help menu - - -                                 `",
-               "`                                                                                         `",
+    strings = ["`                               - - - bot help menu - - -                                  `",
+               "`                                                                                          `",
                "`  bot_help                        - pulls up help menu                                    `",
                "`  hello                           - responds with greeting                                `",
                # "`  .test                           - responds \"yay!\"                                       `",
                "`  joke                            - says a terrible joke                                  `",
                "`  coin_flip                       - flips a coin, heads or tails                          `",
                "`  gold_not_mentioned              - responds with times gold hasn't been mentioned        `",
-               "`  update_gold_not_mentioned \"int\" - updates .gold_mentions amount by given int             `",
+               "`  update_gold_not_mentioned \"int\" - updates .gold_mentions amount by given int            `",
                # "`  .roll_d4                        - rolls  4 sided die                                    `",
                # "`  .roll_d6                        - rolls  6 sided die                                    `",
                # "`  .roll_d8                        - rolls  8 sided die                                    `",
@@ -245,7 +245,7 @@ async def bot_help(ctx):
                "`  run_python_code \"PYTHON_CODE\"   - runs the code given in the code                       `",
                "`  see_python_modules              - see imports that are usable for \"run_python_code\"     `",
                "`  go_die                          - violently kills and disconnects the bot               `",
-               "`                                                                                         `",
+               "`                                                                                          `",
                "`  sym_help            - help for symbolic math library                                    `",
                "`  symdo \"MATH_STUFF\"  - does the math stuff, quotes are important                         `"
                ]
