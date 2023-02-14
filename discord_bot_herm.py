@@ -105,7 +105,7 @@ game_status   = [
                  ]
 # Josh's terrible bot is listening to _________
 listen_status = [
-                 "Sasha talk about gold", "frustrated grumbling",
+                 "Sasha talk about gold", "Josh complain",
                  "waves crash"
                  ]
 # Josh's terrible bot is watching _________
@@ -154,13 +154,13 @@ async def join(ctx):
 
 @bot.command()
 async def rick_roll(ctx):
-    server = ctx.message.guild
+    server        = ctx.message.guild
     voice_channel = server.voice_client
     voice_channel.play(discord.FFmpegPCMAudio("rick_roll.mp3"))
 
 @bot.command()
 async def play_mp3(ctx, mp3_file):
-    server = ctx.message.guild
+    server        = ctx.message.guild
     voice_channel = server.voice_client
     voice_channel.play(discord.FFmpegPCMAudio( str(mp3_file) ))
 
@@ -189,16 +189,18 @@ async def leave(ctx):
 # regular commands
 
 @bot.command()
-async def update_gold_mentions(ctx, times_mentioned_since_previous_update):
+async def update_gold_not_mentioned(ctx, times_mentioned_since_previous_update):
     times_mentioned_before = list(open("sasha_gold_mentions.txt", "r"))[-1]
+
     with open('sasha_gold_mentions.txt', 'w') as f:
         f.write(str( int(times_mentioned_before )+ int(times_mentioned_since_previous_update) ))
     
     await ctx.send("updated \:)")
 
 @bot.command()
-async def gold_mentions(ctx):
+async def gold_not_mentioned(ctx):
     times_mentioned = list(open("sasha_gold_mentions.txt", "r"))[-1]
+
     await ctx.send("Times gold has *not* been mentioned: "+ str(times_mentioned))
 
 @bot.command(name = "bot_input", description = "for testing inputs from discord into python script", category = "testing")
@@ -221,16 +223,15 @@ async def ping(ctx):
 async def bot_help(ctx):
     
     # be careful, there is a 2,000 char limit in discord messages
-    
     strings = ["`                               - - - bot help menu - - -                                 `",
                "`                                                                                         `",
-               "`  .bot_help                      - pulls up help menu                                    `",
-               "`  .hello                         - responds with greeting                                `",
+               "`  bot_help                       - pulls up help menu                                    `",
+               "`  hello                          - responds with greeting                                `",
                # "`  .test                          - responds \"yay!\"                                       `",
-               "`  .joke                          - says a terrible joke                                  `",
-               "`  .coin_flip                     - flips a coin, heads or tails                          `",
-               "`  .gold_mentions                 - responds with times gold hasn't been mentioned        `",
-               "`  .update_gold_mentions \"int\"    - updates .gold_mentions amount by given int              `",
+               "`  joke                           - says a terrible joke                                  `",
+               "`  coin_flip                      - flips a coin, heads or tails                          `",
+               "`  gold_not_mentioned             - responds with times gold hasn't been mentioned        `",
+               "`  update_gold_not_mentioned \"int\" - updates .gold_mentions amount by given int              `",
                # "`  .roll_d4                       - rolls  4 sided die                                    `",
                # "`  .roll_d6                       - rolls  6 sided die                                    `",
                # "`  .roll_d8                       - rolls  8 sided die                                    `",
@@ -238,18 +239,18 @@ async def bot_help(ctx):
                # "`  .roll_d12                      - rolls 12 sided die                                    `",
                # "`  .roll_d20                      - rolls 20 sided die                                    `",
                # "`  .random_number \"int\"           - generates random number between 1 and given value     `",
-               "`  .tic_tac_toe                   - played against you in tic-tac-toe                     `",
-               "`  .spam_the_bee_movie            - spams the entire bee movie script                     `",
-               "`  .stop_spam                     - stops any spamming from the bot                       `",
-               "`  .run_python_code \"PYTHON_CODE\" - runs the code given in the code                       `",
-               "`  .see_python_modules            - see imports that are usable for \"run_python_code\"     `",
-               "`  .go_die                        - violently kills and disconnects the bot               `",
+               "`  tic_tac_toe                    - played against you in tic-tac-toe                     `",
+               "`  spam_the_bee_movie             - spams the entire bee movie script                     `",
+               "`  stop_spam                      - stops any spamming from the bot                       `",
+               "`  run_python_code \"PYTHON_CODE\"  - runs the code given in the code                       `",
+               "`  see_python_modules             - see imports that are usable for \"run_python_code\"     `",
+               "`  go_die                         - violently kills and disconnects the bot               `",
                "`                                                                                         `",
-               "`  .sym_help           - help for symbolic math library                                   `",
-               "`  .symdo \"MATH_STUFF\" - does the math stuff, quotes are important                        `"
+               "`  sym_help            - help for symbolic math library                                   `",
+               "`  symdo \"MATH_STUFF\"  - does the math stuff, quotes are important                        `"
                ]
     
-    help_string = ""
+    help_string = ""  # this will be the final message sent of the help menu
     for s in strings:
         help_string += s
         help_string += "\n"
@@ -265,6 +266,7 @@ async def coin_flip(ctx):
         await ctx.reply("tails")
     else:
         await ctx.send("broken")
+        print("coin flip broken")
 
 @bot.command(aliases = ["d4_roll", "rolld4", "d4roll"])
 async def roll_d4(ctx):
@@ -300,8 +302,7 @@ async def random_number(ctx, highest_value):
 async def joke(ctx):
     jokes     = open("bad_jokes.txt","r")
     joke_list = list(jokes)
-    joke = joke_list[np.random.randint( len(joke_list) )]
-    
+    joke      = joke_list[np.random.randint( len(joke_list) )]
     await ctx.send(joke)
 
 @bot.command(alieses = ["see_loaded_libraries", "python_modules", "python_libraries", "see_loaded_modules", "see_python_libaries"])
@@ -335,7 +336,6 @@ async def pick_markers(ctx, amount_of_markers):
         choice = np.random.randint(len(markerList))
         choose.append( markerList[choice] )
         markerList.pop(choice)
-    
     
     return_string = ", ".join( choose )
     await ctx.send("Your markers are: \n"+ return_string )
@@ -371,16 +371,14 @@ async def sym_docs(ctx):
 async def go_die(ctx):
     enabled = True
     
-    strings = [
+    death_messages = [
                " had overdetermined bountary conditions",
                "'s integral did not converge",
                "'s hours of work ended with showing 0 = 1",
                " missed a negative sign 3 hours ago",
-               " broke the 2nd law of thermo",
                " had to deal a refrigerator door"
                ]
-    # bot_name = str( bot.user() )[0:-5]
-    death = bot_name + strings[ np.random.randint(len(strings)) ]
+    death = bot_name + death_messages[ np.random.randint(len(death_messages)) ]
     await ctx.send( death )
     
     if enabled:
@@ -410,7 +408,7 @@ async def symdo(ctx, math_message):
         if char == "~":
             final_answer += "\~"
 
-    # fix formatting:
+    # fix formatting again:
     for char in math_stuff:
         if (char != "*") and (char != "_") and (char != "~"):
             math_stuff_final += char
@@ -454,7 +452,7 @@ async def stop_spam(ctx):
 
 @bot.command(aliases = ["greet"])
 async def hello(ctx):
-    greetings = ["greetings", "salutations", "hello", "hi", "hiya", "howdy", ":)", "wazzup", "what's up", "hello fellow human being"]
+    greetings = [ "hello", "hi", "hiya", ":)", "*waves claw*"]
     await ctx.reply(
                     greetings[ np.random.randint(len(greetings)) ]
                     )
@@ -534,7 +532,6 @@ async def tic_tac_toe(ctx):
         #replace positions in each row:
         for rowNum in range(1,3+1):
             for char in range( len( eval("row"+str(rowNum)) )-1 ):
-                #print(char)
                 #scan for 'p':
                 board_pos=( eval("row"+str(rowNum))[char] + eval("row"+str(rowNum))[char+1] )
                 #print(board_pos)
@@ -571,7 +568,6 @@ async def tic_tac_toe(ctx):
         
         #print("The board : ")
         return ("`" + "\u0332".join( row1 ) +"\n"+ "\u0332".join( row2 )  +"\n"+ "\u0332".join( row3 ) +"`")
-        # return ("`"+ "\u0332".join("             ") +"\n"+ "\u0332".join( row1 ) +"\n"+ "\u0332".join( row2 )  +"\n"+ "\u0332".join( row3 ) +"`")
     
     # variable setup
     time_length = 20
@@ -992,6 +988,9 @@ async def tic_tac_toe(ctx):
 @bot.event
 async def on_disconnect():
     print("- - - disconnected - - -")
+
+
+
 
 
 
