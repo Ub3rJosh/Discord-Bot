@@ -11,6 +11,7 @@ import time
 
 raw_code_url = "https://raw.githubusercontent.com/Ub3rJosh/wittyname/main/discord_bot.py"
 
+
 while True:
     
     # open the original file and save it's code
