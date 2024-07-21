@@ -100,18 +100,21 @@ async def on_ready():
 
 # Josh's terrible bot is playing _________
 game_status   = [
-                 "with matrices", "with eigenvectors", "with eigenvalues", "with python", "with mathematica", "with C++", "with harmonic oscillators", "coupled PDEs",
+                 "with tensors", "with eigenvectors", "with python", "with fortran", "with C++", "with harmonic oscillators", "with coupled PDEs",
                  "with a lobster", "with a pufferfish", "with a rock", "in tide pools"
                  ]
 # Josh's terrible bot is listening to _________
 listen_status = [
-                 "Sasha talk about gold", "Josh complain",
-                 "waves crash"
+                 "Sasha talk about gold", 
+                 "Josh complain", "Josh complain", "Josh complain",
+                 "waves crash", 
+                 "Crab Rave"
                  ]
 # Josh's terrible bot is watching _________
 watch_status  = [
                  "refrigerator doors close",
-                 "fish swim by"
+                 "fish swim by",
+                 "you struggle"
                  ]
 @tasks.loop(minutes = 5)
 async def change_status():
